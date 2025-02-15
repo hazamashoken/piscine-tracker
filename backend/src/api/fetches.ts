@@ -1,6 +1,5 @@
 import { OneTeam, ScaleTeam, Team, User42 } from "./interfaces.js";
 import { logger } from "../logger.js";
-import Fast42 from '@codam/fast42';
 
 const fetchAll42 = async function (
   //@ts-ignore
