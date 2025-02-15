@@ -1,0 +1,38 @@
+{
+  "name": "42sg-webhook-server",
+  "version": "1.0.0",
+  "main": "dist/server.js",
+  "type": "module",
+  "engines": {
+    "node": ">= 22.11 < 23"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts",
+    "generate": "drizzle-kit generate:pg",
+    "migrate": "tsx src/migrate.ts",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@codam/fast42": "^2.1.6",
+    "cron": "^3.5.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pocketbase": "^0.25.1",
+    "remeda": "^2.20.1",
+    "winston": "^3.17.0",
+    "winston-console-format": "^1.0.8"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.4",
+    "@typescript-eslint/parser": "^8.24.0",
+    "eslint": "^8.57.1",
+    "prettier": "^3.5.1",
+    "prettier-eslint": "^16.3.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}
