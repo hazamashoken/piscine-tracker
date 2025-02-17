@@ -1,9 +1,22 @@
 import "dotenv/config.js";
 import "./api/intra.js";
 import express from "express";
-import { cronJobLocationsStat, cronJobPisciner, cronJobScaleTeam, cronJobTeam } from "./cron/process_pisciner.js";
+import {
+  cronJobLocationsStat,
+  cronJobPisciner,
+  cronJobScaleTeam,
+  cronJobTeam,
+} from "./cron/process_pisciner.js";
 import { logger } from "./logger.js";
-import { processLocationsStat, processProject } from './lib/pisciner.js';
+import {
+  processLocationsStat,
+  processPisciner,
+  processProject,
+  processScaleTeam,
+  processTeam,
+  processTutor,
+} from "./lib/pisciner.js";
+import "./lib/pocketbase.js";
 
 const { PORT } = process.env;
 
@@ -23,8 +36,14 @@ app.get("/healthcheck", (_req, res) => {
   });
 });
 
+await processTutor();
+
+await processPisciner();
+
 await processLocationsStat(); // process locations stat first
 await processProject();
+await processScaleTeam();
+await processTeam();
 
 cronJobPisciner.start();
 cronJobScaleTeam.start();

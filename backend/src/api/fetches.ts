@@ -1,17 +1,18 @@
-import { OneTeam, ScaleTeam, Team, User42 } from "./interfaces.js";
+import { CursusUser, OneTeam, ScaleTeam, Team } from "./interfaces.js";
 import { logger } from "../logger.js";
+import { pb } from "../lib/pocketbase.js";
 
 const fetchAll42 = async function (
   //@ts-ignore
   api: Fast42,
   path: string,
-  params: { [key: string]: string } = {}
+  params: { [key: string]: string } = {},
 ): Promise<any[]> {
   return new Promise(async (resolve, reject) => {
     try {
       const pages = await api.getAllPages(path, params);
       logger.debug(
-        `Retrieving API items: ${pages.length} pages for path ${path}`
+        `Retrieving API items: ${pages.length} pages for path ${path}`,
       );
 
       // Fetch all pages
@@ -30,7 +31,7 @@ const fetchAll42 = async function (
           } else {
             throw new Error(`Intra API error: ${p.status} ${p.statusText}`);
           }
-        })
+        }),
       );
       return resolve(pageItems.flat());
     } catch (err) {
@@ -40,8 +41,11 @@ const fetchAll42 = async function (
   });
 };
 
-//@ts-ignore
-export async function fetchTeam(api: Fast42, teamId: string): Team[] | null {
+export async function fetchTeam(
+  //@ts-ignore
+  api: Fast42,
+  teamId: string,
+): Promise<Team[] | null> {
   try {
     const team = await fetchAll42(api, `/teams/${teamId}`);
     if (!team) {
@@ -54,64 +58,107 @@ export async function fetchTeam(api: Fast42, teamId: string): Team[] | null {
   }
 }
 
-//@ts-ignore
-export async function fetchPisciner(api: Fast42, poolYear: number):User42[] | null {
+export async function fetchCursusUser(
+  //@ts-ignore
+  api: Fast42,
+  login: string,
+): Promise<CursusUser[] | null> {
   try {
+    const cursusUser: CursusUser[] = await fetchAll42(
+      api,
+      `/users/${login}/cursus_users`,
+    );
 
-    const users = await fetchAll42(api, "/users", {
-      "campus_id": `${process.env["CAMPUS_ID"]}`,
-      "cursus_id": `9`, // piscine c id
-      "filter[kind]": "student",
-      "filter[pool_year]": poolYear.toString(),
-    })
-
-    return users;
-
+    return cursusUser;
   } catch (error) {
     logger.error(error);
+    return null;
   }
-
 }
 
-//@ts-ignore
-export async function fetchUserCorrector(api: Fast42, login: string): ScaleTeam[] | null {
+export async function fetchPisciner(
+  //@ts-ignore
+  api: Fast42,
+  poolYear: number,
+): Promise<CursusUser[] | null> {
   try {
-    const scaleTeams = await fetchAll42(api, `/users/${login}/scale_teams/as_corrector`, {
-      "page[size]": "100"
-    })
+    const config = await pb
+      .collection("config")
+      .getFirstListItem('version="main"');
+    const users: CursusUser[] = await fetchAll42(api, "/cursus_users", {
+      "filter[campus_id]": config["campus_id"] ?? "64",
+      "filter[cursus_id]": `9`, // piscine c id
+      // "filter[kind]": "student",
+      // "filter[pool_year]": poolYear.toString(),
+      "range[begin_at]":
+        config["begin_at"] ??
+        "2025-02-10T00:00:00.000Z,2025-02-11T00:00:00.000Z",
+    });
+
+    return users;
+  } catch (error) {
+    logger.error(error);
+    return null;
+  }
+}
+
+export async function fetchUserCorrector(
+  //@ts-ignore
+  api: Fast42,
+  login: string,
+): Promise<ScaleTeam[] | null> {
+  try {
+    const scaleTeams = await fetchAll42(
+      api,
+      `/users/${login}/scale_teams/as_corrector`,
+      {
+        "page[size]": "100",
+      },
+    );
 
     return scaleTeams;
-  } catch (error){
+  } catch (error) {
     logger.error(error);
+    return null;
   }
 }
 
-//@ts-ignore
-export async function fetchUserCorrected(api: Fast42, login: string): ScaleTeam[] | null {
+export async function fetchUserCorrected(
+  //@ts-ignore
+  api: Fast42,
+  login: string,
+): Promise<ScaleTeam[] | null> {
   try {
-    const scaleTeams = await fetchAll42(api, `/users/${login}/scale_teams/as_corrected`, {
-      "page[size]": "100"
-    })
+    const scaleTeams = await fetchAll42(
+      api,
+      `/users/${login}/scale_teams/as_corrected`,
+      {
+        "page[size]": "100",
+      },
+    );
 
     return scaleTeams;
-  } catch (error){
+  } catch (error) {
     logger.error(error);
+    return null;
   }
 }
 
-//@ts-ignore
-export async function fetchTeams(api: Fast42, login: string): OneTeam[] | null {
-
+export async function fetchTeams(
+  //@ts-ignore
+  api: Fast42,
+  login: string,
+): Promise<OneTeam[] | null> {
   try {
     const teams = await fetchAll42(api, `/users/${login}/teams`, {
-      "page[size]": "100"
-    })
+      "page[size]": "100",
+    });
 
     return teams;
   } catch (error) {
     logger.error(error);
+    return null;
   }
-
 }
 
 //@ts-ignore
@@ -123,17 +170,27 @@ export async function fetchProject(api: Fast42): any | null {
     return project;
   } catch (error) {
     logger.error(error);
+    return null;
   }
 }
 
-//@ts-ignore
-export async function fetchLocationStats(api: Fast42, login: string, begin_at?: string): Record<string, string>[] | null {
+export async function fetchLocationStats(
+  //@ts-ignore
+  api: Fast42,
+  login: string,
+  begin_at?: string,
+): Promise<Record<string, string>[] | null> {
   try {
-    const options = !!begin_at ? { "begin_at": begin_at } : undefined;
-    const locations = await fetchAll42(api, `/users/${login}/locations_stats`, options);
+    const options = !!begin_at ? { begin_at: begin_at } : undefined;
+    const locations = await fetchAll42(
+      api,
+      `/users/${login}/locations_stats`,
+      options,
+    );
 
     return locations;
   } catch (error) {
     logger.error(error);
+    return null;
   }
 }
