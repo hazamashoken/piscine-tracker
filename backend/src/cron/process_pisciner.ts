@@ -1,3 +1,4 @@
+import { migratePsql } from "../lib/migration-psql.js";
 import {
   processLocationsStat,
   processPisciner,
@@ -43,6 +44,14 @@ export const cronJobLocationsStat = CronJob.from({
   cronTime: "*/5 * * * *",
   onTick: async function () {
     await processLocationsStat(new Date().toISOString());
+  },
+  timeZone: "Asia/Singapore",
+});
+
+export const cronJobMigratePsql = CronJob.from({
+  cronTime: "*/10 * * * *",
+  onTick: async function () {
+    await migratePsql();
   },
   timeZone: "Asia/Singapore",
 });
