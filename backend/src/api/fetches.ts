@@ -29,6 +29,7 @@ const fetchAll42 = async function (
             const data = await p.json();
             return data;
           } else {
+            logger.error(await p.json());
             throw new Error(`Intra API error: ${p.status} ${p.statusText}`);
           }
         }),
