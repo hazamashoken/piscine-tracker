@@ -8,7 +8,7 @@ name: Build and Push
 on:
   push:
     branches:
-      - master
+      - main
     tags:
       - v*
 
