@@ -80,7 +80,6 @@ export async function fetchCursusUser(
 export async function fetchPisciner(
   //@ts-ignore
   api: Fast42,
-  poolYear: number,
 ): Promise<CursusUser[] | null> {
   try {
     const config = await pb

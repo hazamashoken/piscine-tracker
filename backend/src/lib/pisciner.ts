@@ -12,7 +12,7 @@ import * as R from "remeda";
 import { timeStringToSeconds } from "./toSecond.js";
 import { pb } from "./pocketbase.js";
 export async function processPisciner() {
-  const pisciner = await fetchPisciner(api, new Date().getFullYear());
+  const pisciner = await fetchPisciner(api);
 
   if (!pisciner) {
     return;
