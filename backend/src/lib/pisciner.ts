@@ -14,7 +14,7 @@ import { pb } from "./pocketbase.js";
 export async function processPisciner() {
   const pisciner = await fetchPisciner(api);
 
-  if (!pisciner) {
+  if (!pisciner || pisciner.length === 0) {
     return;
   }
 
