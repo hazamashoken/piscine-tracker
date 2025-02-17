@@ -1,4 +1,10 @@
-import { processLocationsStat, processPisciner, processProject, processScaleTeam, processTeam } from '../lib/pisciner.js';
+import {
+  processLocationsStat,
+  processPisciner,
+  processProject,
+  processScaleTeam,
+  processTeam,
+} from "../lib/pisciner.js";
 import { CronJob } from "cron";
 
 export const cronJobPisciner = CronJob.from({
