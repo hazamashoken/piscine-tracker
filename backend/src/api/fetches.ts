@@ -215,6 +215,7 @@ export async function fetchLocation(
     const locations: FTLocation[] = await fetchAll42(
       api,
       `/campus/${config["campus_id"]}/locations`,
+      // @ts-ignore
       options,
     );
 
