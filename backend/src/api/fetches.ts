@@ -111,9 +111,6 @@ export async function fetchUserCorrector(
     const scaleTeams = await fetchAll42(
       api,
       `/users/${login}/scale_teams/as_corrector`,
-      {
-        "page[size]": "100",
-      },
     );
 
     return scaleTeams;
@@ -132,9 +129,6 @@ export async function fetchUserCorrected(
     const scaleTeams = await fetchAll42(
       api,
       `/users/${login}/scale_teams/as_corrected`,
-      {
-        "page[size]": "100",
-      },
     );
 
     return scaleTeams;
