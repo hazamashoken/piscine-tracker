@@ -1,4 +1,10 @@
-import { CursusUser, OneTeam, ScaleTeam, Team } from "./interfaces.js";
+import {
+  CursusUser,
+  FTLocation,
+  OneTeam,
+  ScaleTeam,
+  Team,
+} from "./interfaces.js";
 import { logger } from "../logger.js";
 import { pb } from "../lib/pocketbase.js";
 
@@ -179,6 +185,36 @@ export async function fetchLocationStats(
     const locations = await fetchAll42(
       api,
       `/users/${login}/locations_stats`,
+      options,
+    );
+
+    return locations;
+  } catch (error) {
+    logger.error(error);
+    return null;
+  }
+}
+
+export async function fetchLocation(
+  //@ts-ignore
+  api: Fast42,
+  userIds: string,
+  cron: boolean,
+) {
+  try {
+    const config = await pb
+      .collection("config")
+      .getFirstListItem('version="main"');
+    const options = cron
+      ? {
+          "range[begin_at]":
+            new Date().toISOString().split("T")[0] + "T00:00:00.000Z",
+          "filter[user_id]": userIds,
+        }
+      : { "filter[user_id]": userIds };
+    const locations: FTLocation[] = await fetchAll42(
+      api,
+      `/campus/${config["campus_id"]}/locations`,
       options,
     );
 

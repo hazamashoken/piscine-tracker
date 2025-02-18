@@ -66,3 +66,12 @@ export interface PbLocationStat {
   created: Date;
   updated: Date;
 }
+export interface PbLocation {
+  collectionId: string;
+  collectionName: string;
+  id: string;
+  begin_at: string;
+  end_at: string;
+  host: string;
+  user: string;
+}

@@ -1,6 +1,7 @@
 import { logger } from "../logger.js";
 import {
   fetchCursusUser,
+  fetchLocation,
   fetchLocationStats,
   fetchPisciner,
   fetchProject,
@@ -231,5 +232,35 @@ export async function processTutor() {
     } catch (error) {
       logger.error(error);
     }
+  }
+}
+
+export async function processLocation(cron: boolean = false) {
+  try {
+    const users = await pb.collection("pisciner").getFullList({
+      filter: "is_pisciner=true",
+    });
+
+    const userIds = users.map((user) => user.id).join(",");
+    const locations = await fetchLocation(api, userIds, cron);
+    if (!locations || locations.length === 0) {
+      return;
+    }
+
+    const batch = pb.createBatch();
+
+    for (const location of locations) {
+      const payload = {
+        id: location.id,
+        user: location.user.id,
+        host: location.host,
+        begin_at: location.begin_at,
+        end_at: location.end_at,
+      };
+      batch.collection("location").upsert(payload);
+    }
+    await batch.send();
+  } catch (error) {
+    logger.error(error);
   }
 }
