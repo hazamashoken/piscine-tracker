@@ -56,13 +56,11 @@ export async function processScaleTeam() {
   const users = await pb.collection("pisciner").getFullList({
     filter: "is_pisciner=true",
   });
-
   for (const user of users) {
     try {
       const correctedScaleTeams = await fetchUserCorrected(api, user.id);
-
       if (!correctedScaleTeams || correctedScaleTeams.length === 0) {
-        return;
+        continue;
       }
 
       if (
@@ -107,7 +105,7 @@ export async function processTeam() {
     try {
       const teams = await fetchTeams(api, user.id);
       if (!teams || teams.length === 0) {
-        return;
+        continue;
       }
 
       const batch = pb.createBatch();
@@ -202,7 +200,7 @@ export async function processTutor() {
   for (const tutor of tutors) {
     const cursusUsers = await fetchCursusUser(api, tutor["login"]);
     if (!cursusUsers || cursusUsers?.length === 0) {
-      return;
+      continue;
     }
     const cursusUser = cursusUsers[0]!;
     const user = cursusUser.user;
