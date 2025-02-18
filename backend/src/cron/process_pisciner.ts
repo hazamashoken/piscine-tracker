@@ -41,7 +41,7 @@ export const cronJobProject = CronJob.from({
 });
 
 export const cronJobLocationsStat = CronJob.from({
-  cronTime: "*/5 * * * *",
+  cronTime: "0 * * * *",
   onTick: async function () {
     await processLocationsStat(new Date().toISOString());
   },
