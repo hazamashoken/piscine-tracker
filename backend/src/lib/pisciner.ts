@@ -65,28 +65,34 @@ export async function processScaleTeam() {
         return;
       }
 
-      const batch = pb.createBatch();
+      if (
+        correctedScaleTeams.some((team) => {
+          return !R.isEmpty(team.corrector) && team.correcteds.length > 0;
+        })
+      ) {
+        const batch = pb.createBatch();
 
-      if (correctedScaleTeams) {
-        for (const scaleTeam of correctedScaleTeams) {
-          const payload = {
-            id: scaleTeam.id,
-            scale_id: scaleTeam.scale.id,
-            comment: scaleTeam.comment,
-            final_mark: scaleTeam.final_mark,
-            feedback: scaleTeam.feedback,
-            flag: scaleTeam.flag.name,
-            corrector: scaleTeam.corrector.id,
-            corrected: scaleTeam.correcteds[0]?.id,
-            created: scaleTeam.created_at,
-            updated: scaleTeam.updated_at,
-          };
-          if (!!payload.corrector && !!payload.corrected) {
-            batch.collection("scale_team").upsert(payload);
+        if (correctedScaleTeams) {
+          for (const scaleTeam of correctedScaleTeams) {
+            const payload = {
+              id: scaleTeam.id,
+              scale_id: scaleTeam.scale.id,
+              comment: scaleTeam.comment,
+              final_mark: scaleTeam.final_mark,
+              feedback: scaleTeam.feedback,
+              flag: scaleTeam.flag.name,
+              corrector: scaleTeam.corrector.id,
+              corrected: scaleTeam.correcteds[0]?.id,
+              created: scaleTeam.created_at,
+              updated: scaleTeam.updated_at,
+            };
+            if (!!payload.corrector && !!payload.corrected) {
+              batch.collection("scale_team").upsert(payload);
+            }
           }
         }
+        await batch.send();
       }
-      await batch.send();
     } catch (error) {
       logger.error(error);
     }
