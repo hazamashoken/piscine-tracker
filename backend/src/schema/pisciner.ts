@@ -24,8 +24,8 @@ export const piscinerTable = pgTable("pisciners", {
   pool_year: varchar(),
   image_url: varchar(),
   is_pisciner: boolean(),
-  created: timestamp(),
-  updated: timestamp(),
+  created: timestamp({ withTimezone: true }),
+  updated: timestamp({ withTimezone: true }),
 });
 
 export const projectTable = pgTable("projects", {
@@ -33,8 +33,8 @@ export const projectTable = pgTable("projects", {
   name: varchar(),
   slug: varchar(),
   exam: boolean(),
-  created: timestamp(),
-  updated: timestamp(),
+  created: timestamp({ withTimezone: true }),
+  updated: timestamp({ withTimezone: true }),
 });
 
 export const scaleTeamTable = pgTable("scale_teams", {
@@ -46,8 +46,8 @@ export const scaleTeamTable = pgTable("scale_teams", {
   comment: text(),
   feedback: text(),
   flag: varchar(),
-  created: timestamp(),
-  updated: timestamp(),
+  created: timestamp({ withTimezone: true }),
+  updated: timestamp({ withTimezone: true }),
 });
 
 export const teamTable = pgTable("teams", {
@@ -58,17 +58,17 @@ export const teamTable = pgTable("teams", {
   repo_url: varchar(),
   project_name: varchar(),
   project_id: integer().references(() => projectTable.id),
-  created: timestamp(),
-  updated: timestamp(),
+  created: timestamp({ withTimezone: true }),
+  updated: timestamp({ withTimezone: true }),
 });
 
 export const locationStatTable = pgTable("location_stat", {
   id: varchar().primaryKey(),
   user: integer().references(() => piscinerTable.id),
-  date: timestamp(),
+  date: timestamp({ withTimezone: true }),
   duration: numeric(),
-  created: timestamp(),
-  updated: timestamp(),
+  created: timestamp({ withTimezone: true }),
+  updated: timestamp({ withTimezone: true }),
 });
 
 export const teamMemberTable = pgTable(
@@ -83,7 +83,7 @@ export const teamMemberTable = pgTable(
 export const locationTable = pgTable("locations", {
   id: integer().primaryKey(),
   user: integer().references(() => piscinerTable.id),
-  begin_at: timestamp(),
-  end_at: timestamp(),
+  begin_at: timestamp({ withTimezone: true }),
+  end_at: timestamp({ withTimezone: true }),
   host: varchar(),
 });
