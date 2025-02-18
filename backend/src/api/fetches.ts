@@ -208,7 +208,9 @@ export async function fetchLocation(
     const options = cron
       ? {
           "range[begin_at]":
-            new Date().toISOString().split("T")[0] +
+            new Date(new Date().setDate(new Date().getDate() - 1))
+              .toISOString()
+              .split("T")[0] +
             "T00:00:00.000Z," +
             new Date(new Date().setDate(new Date().getDate() + 1))
               .toISOString()
