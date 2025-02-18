@@ -3,6 +3,7 @@ import {
   integer,
   numeric,
   pgTable,
+  primaryKey,
   text,
   timestamp,
   varchar,
@@ -70,8 +71,19 @@ export const locationStatTable = pgTable("location_stat", {
   updated: timestamp(),
 });
 
-export const teamMemberTable = pgTable("team_members", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+export const teamMemberTable = pgTable(
+  "team_members",
+  {
+    user: integer().references(() => piscinerTable.id),
+    team: integer().references(() => teamTable.id),
+  },
+  (table) => [primaryKey({ columns: [table.user, table.team] })],
+);
+
+export const locationTable = pgTable("locations", {
+  id: integer().primaryKey(),
   user: integer().references(() => piscinerTable.id),
-  team: integer().references(() => teamTable.id),
+  begin_at: timestamp(),
+  end_at: timestamp(),
+  host: varchar(),
 });

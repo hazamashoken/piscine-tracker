@@ -2,6 +2,7 @@ import "dotenv/config.js";
 import "./api/intra.js";
 import express from "express";
 import {
+  cronJobLocation,
   cronJobLocationsStat,
   cronJobMigratePsql,
   cronJobPisciner,
@@ -10,6 +11,7 @@ import {
 } from "./cron/process_pisciner.js";
 import { logger } from "./logger.js";
 import {
+  processLocation,
   processLocationsStat,
   processPisciner,
   processProject,
@@ -45,12 +47,14 @@ await processLocationsStat(); // process locations stat first
 await processProject();
 await processScaleTeam();
 await processTeam();
+await processLocation();
 await migratePsql();
 
 cronJobPisciner.start();
 cronJobScaleTeam.start();
 cronJobTeam.start();
 cronJobLocationsStat.start(); // Call only current day data
+cronJobLocation.start();
 cronJobMigratePsql.start();
 
 app.listen(PORT, () => {
