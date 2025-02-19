@@ -18,7 +18,7 @@ export const cronJobPisciner = CronJob.from({
 });
 
 export const cronJobScaleTeam = CronJob.from({
-  cronTime: "*/5 * * * *", // every 5 minutes
+  cronTime: "*/10 * * * *", // every 5 minutes
   onTick: async function () {
     await processScaleTeam();
   },
@@ -26,7 +26,7 @@ export const cronJobScaleTeam = CronJob.from({
 });
 
 export const cronJobTeam = CronJob.from({
-  cronTime: "*/5 * * * *", // every 5 minutes
+  cronTime: "*/10 * * * *", // every 5 minutes
   onTick: async function () {
     await processTeam();
   },
@@ -50,7 +50,7 @@ export const cronJobLocationsStat = CronJob.from({
 });
 
 export const cronJobMigratePsql = CronJob.from({
-  cronTime: "*/10 * * * *",
+  cronTime: "*/15 * * * *",
   onTick: async function () {
     await migratePsql();
   },
@@ -58,7 +58,7 @@ export const cronJobMigratePsql = CronJob.from({
 });
 
 export const cronJobLocation = CronJob.from({
-  cronTime: "*/8 * * * *",
+  cronTime: "*/10 * * * *",
   onTick: async function () {
     await processLocation(true);
   },
