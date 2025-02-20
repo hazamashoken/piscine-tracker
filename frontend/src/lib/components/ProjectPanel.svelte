@@ -9,9 +9,11 @@
 	};
 </script>
 
-<div class="bg-primary border-secondary flex flex-col justify-center rounded-lg border-2 p-4">
+<div
+	class="bg-primary border-secondary flex h-full flex-col justify-center rounded-lg border-2 p-4"
+>
 	<h1 class="text-2xl font-bold">Projects</h1>
-	<div class="grid h-96 grid-cols-2 gap-2 overflow-y-auto p-6 fade-tb">
+	<div class="fade-tb grid h-96 grid-cols-2 gap-2 overflow-y-auto p-6">
 		{#each projects as project}
 			<div
 				class="card {project.final_mark >= 50

@@ -5,7 +5,13 @@
 	export let data;
 </script>
 
+<div>
 <UserInfo user={data.pisciner} />
+</div>
+<div>
 <ProjectPanel projects={data.team} />
+</div>
+<div>
 <EvaluationLogs scale_team_corrector={data.scale_team_corrector} scale_team_corrected={data.scale_team_corrected} />
+</div>
 <div>Stockmarket</div>
