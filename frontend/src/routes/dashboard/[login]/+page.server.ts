@@ -20,7 +20,8 @@ export async function load({ params }) {
 	});
 	data.team = team;
 	const scale_team_corrector = await pb.collection("scale_team").getFullList({
-		filter: `corrector.login = "${login}"`
+		filter: `corrector.login = "${login}"`,
+		sort: "-created"
 	});
 	data.scale_team_corrector = scale_team_corrector;
 	const scale_team_corrected = await pb.collection("scale_team").getFullList({

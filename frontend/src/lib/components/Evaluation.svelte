@@ -16,14 +16,14 @@
 			</h2>
 		</div>
 		<div>
-			<div class="badge badge-accent text-xs">{evaluation.final_mark}%</div>
+			<div class="badge badge-accent text-xs font-bold">{evaluation.final_mark}%</div>
 		</div>
 	</div>
 	<div class="flex flex-row gap-2 justify-end">
 		{#if evaluation.flag.toLowerCase() == 'ok' || evaluation.flag.toLowerCase() == 'outstanding_project'}
-			<div class="badge badge-accent text-xs">{evaluation.flag.toLowerCase()}</div>
+			<div class="badge badge-accent text-xs font-bold">{evaluation.flag.toLowerCase()}</div>
 		{:else}
-			<div class="badge badge-error text-primary text-xs">{evaluation.flag.toLowerCase()}</div>
+			<div class="badge badge-error text-primary text-xs font-bold">{evaluation.flag.toLowerCase()}</div>
 		{/if}
 	</div>
 	<div>
