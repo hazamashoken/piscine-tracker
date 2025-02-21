@@ -24,9 +24,21 @@ export async function load({ params }) {
 		sort: "-created"
 	});
 	data.scale_team_corrector = scale_team_corrector;
+	for (const evaluation of scale_team_corrector) {
+		const corrector = await pb.collection("pisciner").getOne(evaluation.corrector);
+		evaluation.corrector = corrector.login;
+		const corrected = await pb.collection("pisciner").getOne(evaluation.corrected);
+		evaluation.corrected = corrected.login;
+	}
 	const scale_team_corrected = await pb.collection("scale_team").getFullList({
 		filter: `corrected.login = "${login}"`
 	});
 	data.scale_team_corrected = scale_team_corrected;
+	for (const evaluation of scale_team_corrected) {
+		const corrector = await pb.collection("pisciner").getOne(evaluation.corrector);
+		evaluation.corrector = corrector.login;
+		const corrected = await pb.collection("pisciner").getOne(evaluation.corrected);
+		evaluation.corrected = corrected.login;
+	}
 	return data;
 }

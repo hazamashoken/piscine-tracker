@@ -20,7 +20,6 @@
 
 	function switchTab(newTab: string) {
 		tab = newTab;
-		console.log(tab);
 	}
 
 	function capitalizeEach(str: string, separator: string) {
@@ -35,8 +34,6 @@
 		scale_team_corrected.forEach((evaluation: any) => {
 			corrected[evaluation.flag.toLowerCase()]++;
 		});
-		console.log(corrector["ok"]);
-		console.log(corrected);
 	});
 </script>
 

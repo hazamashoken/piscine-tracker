@@ -2,7 +2,7 @@
 	import UserInfo from "$lib/components/UserInfo.svelte";
 	import ProjectPanel from "$lib/components/ProjectPanel.svelte";
 	import EvaluationLogs from "$lib/components/EvaluationLogs.svelte";
-	export let data;
+	let { data } = $props();
 </script>
 
 <div>

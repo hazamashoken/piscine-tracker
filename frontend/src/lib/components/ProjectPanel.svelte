@@ -1,6 +1,6 @@
 <script lang="ts">
 	let { projects } = $props();
-	console.log(projects);
+
 	const exam: Record<number, string> = {
 		1301: 'Piscine Exam 00',
 		1302: 'Piscine Exam 01',
