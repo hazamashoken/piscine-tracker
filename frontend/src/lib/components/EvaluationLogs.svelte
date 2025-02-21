@@ -1,29 +1,29 @@
 <script lang="ts">
 	import Evaluation from "./Evaluation.svelte";
 	import { onMount } from "svelte";
+	import { capitalizeEach } from "$lib/functions";
+
 	let { scale_team_corrector, scale_team_corrected } = $props();
 
 	let corrector: Record<string, number> = $state({
 		ok: 0,
 		"outstanding project": 0,
 		"empty work": 0,
-		"can’t support / explain code": 0
+		"can’t support / explain code": 0,
+		"norme": 0
 	});
 	let corrected: Record<string, number> = {
 		ok: 0,
 		"outstanding project": 0,
 		"empty work": 0,
-		"can’t support / explain code": 0
+		"can’t support / explain code": 0,
+		"norme": 0
 	};
 
 	let tab = $state("corrector");
 
 	function switchTab(newTab: string) {
 		tab = newTab;
-	}
-
-	function capitalizeEach(str: string, separator: string) {
-		return str.split(separator).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(separator);
 	}
 
 	onMount(() => {

@@ -1,11 +1,14 @@
 import { pb } from '$lib/pocketbase';
 import { error } from '@sveltejs/kit';
+
 export async function load({ params }) {
 	let data = {
 		pisciner: {},
 		team: {},
 		scale_team_corrector: {},
-		scale_team_corrected: {}
+		scale_team_corrected: {},
+		previous: "",
+		next: ""
 	}
 	const { login } = params;
 	const pisciner = await pb.collection("pisciner").getList(1, 1, {
@@ -40,5 +43,12 @@ export async function load({ params }) {
 		const corrected = await pb.collection("pisciner").getOne(evaluation.corrected);
 		evaluation.corrected = corrected.login;
 	}
+	let logins = []
+	const pisciners = await pb.collection("pisciner").getFullList({
+		sort: "login"
+	});
+	logins = pisciners.map((pisciner) => pisciner.login);
+	data.previous = logins[logins.indexOf(data.pisciner.login) - 1];
+	data.next = logins[logins.indexOf(data.pisciner.login) + 1];
 	return data;
 }
