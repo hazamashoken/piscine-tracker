@@ -28,6 +28,8 @@ jobs:
             dir: backend
           - image: piscine-tracker-pocketbase
             dir: pocketbase
+          - image: piscine-tracker-frontend
+            dir: frontend
     permissions:
       packages: write
       contents: read
