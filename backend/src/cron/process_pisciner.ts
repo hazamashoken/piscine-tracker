@@ -44,7 +44,7 @@ export const cronJobProject = CronJob.from({
 export const cronJobLocationsStat = CronJob.from({
   cronTime: "0 * * * *",
   onTick: async function () {
-    await processLocationsStat(new Date().toISOString());
+    await processLocationsStat();
   },
   timeZone: "Asia/Singapore",
 });
