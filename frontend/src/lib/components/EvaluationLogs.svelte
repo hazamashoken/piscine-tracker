@@ -74,7 +74,7 @@
 			{/if}
 		</div>
 	</div>
-	<div class="tabs tabs-lift h-80 p-2">
+	<div class="tabs tabs-lift h-60 p-2">
 		<input type="radio" name="feedback" class="tab" aria-label="Evaluator" checked="checked" onclick={() => switchTab("corrector")} />
 		<div class="tab-content bg-base-100 border-base-300 overflow-y-auto p-6">
 			{#if scale_team_corrector.length == 0}
