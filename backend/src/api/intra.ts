@@ -8,16 +8,17 @@ async function setUpIntraAPI() {
   try {
     logger.info(`Using Intra API UID: ${process.env["INTRA_API_UID"]}`);
     //@ts-ignore
-    api = await new Fast42([
-      {
-        client_id: process.env["INTRA_API_UID"]!,
-        client_secret: process.env["INTRA_API_SECRET"]!,
-      },
-    ]).init();
+    api = await new Fast42(
+      [
+        {
+          client_id: process.env["INTRA_API_UID"]!,
+          client_secret: process.env["INTRA_API_SECRET"]!,
+        },
+      ],
+      2,
+    ).init();
   } catch (err) {
-    logger.warn(
-      "Could not initialize Intra API, some features might not work"
-    );
+    logger.warn("Could not initialize Intra API, some features might not work");
     logger.error(err);
     api = undefined; // unset api
   }
