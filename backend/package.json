@@ -9,6 +9,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
+    "csv": "tsx upload-data.ts",
     "dev": "tsx watch src/server.ts",
     "generate": "drizzle-kit generate:pg",
     "migrate": "tsx src/migrate.ts",
@@ -21,6 +22,7 @@
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.39.3",
     "express": "^4.21.2",
+    "fast-csv": "^5.0.2",
     "pg": "^8.13.3",
     "pocketbase": "^0.25.1",
     "remeda": "^2.20.1",
