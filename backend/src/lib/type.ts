@@ -36,6 +36,7 @@ export interface PbScaleTeam {
   corrector: string;
   corrected: string;
   final_mark: number;
+  team: string;
   comment: string;
   feedback: string;
   flag: string;
@@ -50,6 +51,7 @@ export interface PbTeam {
   name: string;
   status: string;
   final_mark: number;
+  upload_mark: number;
   repo_url: string;
   project_name: string;
   project_id: string;

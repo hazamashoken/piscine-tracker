@@ -144,6 +144,21 @@ export async function fetchUserCorrected(
   }
 }
 
+export async function fetchScaleTeamId(
+  //@ts-ignore
+  api: Fast42,
+  scaleTeamId: string,
+): Promise<ScaleTeam | null> {
+  try {
+    const scaleTeams = await fetchAll42(api, `/scale_teams/${scaleTeamId}`);
+
+    return scaleTeams[0];
+  } catch (error) {
+    logger.error(error);
+    return null;
+  }
+}
+
 export async function fetchTeams(
   //@ts-ignore
   api: Fast42,

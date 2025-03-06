@@ -1,5 +1,6 @@
 import {
   boolean,
+  foreignKey,
   integer,
   numeric,
   pgTable,
@@ -46,6 +47,7 @@ export const scaleTeamTable = pgTable("scale_teams", {
   comment: text(),
   feedback: text(),
   flag: varchar(),
+  team_id: integer().references(() => teamTable.id),
   created: timestamp({ withTimezone: true }),
   updated: timestamp({ withTimezone: true }),
 });
@@ -55,6 +57,7 @@ export const teamTable = pgTable("teams", {
   name: varchar(),
   status: varchar(),
   final_mark: integer(),
+  upload_mark: integer(),
   repo_url: varchar(),
   project_name: varchar(),
   project_id: integer().references(() => projectTable.id),
@@ -74,10 +77,25 @@ export const locationStatTable = pgTable("location_stat", {
 export const teamMemberTable = pgTable(
   "team_members",
   {
-    user: integer().references(() => piscinerTable.id),
-    team: integer().references(() => teamTable.id),
+    user_id: integer("user_id").notNull(),
+    team_id: integer("team_id").notNull(),
   },
-  (table) => [primaryKey({ columns: [table.user, table.team] })],
+  (table) => [
+    foreignKey({
+      columns: [table.user_id],
+      foreignColumns: [piscinerTable.id],
+      name: "team_members_user_id_pisciners_id_fk",
+    }),
+    foreignKey({
+      columns: [table.team_id],
+      foreignColumns: [teamTable.id],
+      name: "team_members_team_id_teams_id_fk",
+    }),
+    primaryKey({
+      columns: [table.user_id, table.team_id],
+      name: "team_members_user_id_team_id_pk",
+    }),
+  ],
 );
 
 export const locationTable = pgTable("locations", {

@@ -80,6 +80,7 @@ export async function processScaleTeam() {
               final_mark: scaleTeam.final_mark,
               feedback: scaleTeam.feedback,
               flag: scaleTeam.flag.name,
+              team: scaleTeam.team.id,
               corrector: scaleTeam.corrector.id,
               corrected: scaleTeam.correcteds[0]?.id,
               created: scaleTeam.created_at,
@@ -112,6 +113,9 @@ export async function processTeam() {
       const batch = pb.createBatch();
       if (teams) {
         for (const team of teams) {
+          const scale_teams = team.scale_teams
+            .filter((scaleTeam) => !R.isEmpty(scaleTeam.corrector))
+            .map((scaleTeam) => scaleTeam.id);
           const payload = {
             id: team.id,
             name: team.name,
@@ -119,12 +123,13 @@ export async function processTeam() {
             repo_url: team.repo_url,
             project_id: team.project_id,
             final_mark: team.final_mark,
+            upload_mark: team.final_mark,
             created: team.created_at,
             updated: team.updated_at,
             project_name: team.project_gitlab_path,
             users: team.users.map((user) => user.id),
+            scale_team: scale_teams.length > 0 ? scale_teams : null,
           };
-
           batch.collection("team").upsert(payload);
         }
       }

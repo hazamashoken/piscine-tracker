@@ -108,6 +108,7 @@ export async function migrateScaleTeam() {
     corrector: parseInt(scaleTeam.corrector),
     corrected: parseInt(scaleTeam.corrected),
     final_mark: scaleTeam.final_mark,
+    team: parseInt(scaleTeam.team),
     created: new Date(scaleTeam.created),
     updated: new Date(scaleTeam.updated),
   }));
@@ -127,6 +128,7 @@ export async function migrateScaleTeam() {
             comment: scaleTeam.comment,
             feedback: scaleTeam.feedback,
             flag: scaleTeam.flag,
+            team_id: scaleTeam.team,
             created: scaleTeam.created,
             updated: scaleTeam.updated,
           },
@@ -144,6 +146,7 @@ export async function migrateTeam() {
     id: parseInt(team.id),
     users: team.users.map((user) => parseInt(user)),
     project_id: parseInt(team.project_id),
+    upload_mark: team.upload_mark,
     created: new Date(team.created),
     updated: new Date(team.updated),
   }));
@@ -160,6 +163,7 @@ export async function migrateTeam() {
             status: team.status,
             final_mark: team.final_mark,
             repo_url: team.repo_url,
+            upload_mark: team.upload_mark,
             project_name: team.project_name,
             project_id: team.project_id,
             created: team.created,
@@ -172,8 +176,8 @@ export async function migrateTeam() {
   }
   const teamMembers = teams.flatMap((team) => {
     return team.users.map((user) => ({
-      user: parseInt(user),
-      team: parseInt(team.id),
+      user_id: parseInt(user),
+      team_id: parseInt(team.id),
     }));
   });
   try {
