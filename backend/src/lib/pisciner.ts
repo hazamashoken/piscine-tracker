@@ -80,7 +80,7 @@ export async function processScaleTeam() {
               final_mark: scaleTeam.final_mark,
               feedback: scaleTeam.feedback,
               flag: scaleTeam.flag.name,
-              team: scaleTeam.team.id,
+              team: null,
               corrector: scaleTeam.corrector.id,
               corrected: scaleTeam.correcteds[0]?.id,
               created: scaleTeam.created_at,
@@ -131,6 +131,14 @@ export async function processTeam() {
             scale_team: scale_teams.length > 0 ? scale_teams : null,
           };
           batch.collection("team").upsert(payload);
+          for (const scale_team of team.scale_teams.filter(
+            (scaleTeam) => !R.isEmpty(scaleTeam.corrector),
+          )) {
+            batch.collection("scale_team").upsert({
+              id: scale_team.id,
+              team: team.id,
+            });
+          }
         }
       }
       await batch.send();
@@ -155,11 +163,9 @@ export async function processProject() {
         slug: project.slug,
         exam: project.exam,
         description: project.description,
-
         created: project.created_at,
         updated: project.updated_at,
       };
-
       batch.collection("project").upsert(payload);
     }
     await batch.send();
