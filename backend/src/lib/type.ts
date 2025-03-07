@@ -24,12 +24,13 @@ export interface PbVox {
   collectionName: string;
   id: string;
   pisciner: string;
-  vox: number;
-  vote_from: string[];
+  vox1: number;
+  vox2: number;
+  vox1_vote: string[];
+  vox2_vote: string[];
   created: Date;
   updated: Date;
 }
-
 export interface PbProject {
   collectionId: string;
   collectionName: string;

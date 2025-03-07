@@ -6,6 +6,8 @@ import csv from "fast-csv";
 import { pb } from "./src/lib/pocketbase.js";
 import type { PbVox } from "./src/lib/type.js";
 import { logger } from "./src/logger.js";
+import { db } from "./src/lib/drizzle.js";
+import { voxTable, voxVoterTable } from "./src/schema/pisciner.js";
 interface IVox {
   CandidateLogin: string;
   NumberOfVotes: string;
@@ -40,7 +42,7 @@ interface IRushTransformed {
 
 // Comment and uncomment to run the script
 
-const processCSV = async (filePath) => {
+const processCSV = async (filePath: string, voxNo: string) => {
   fs.createReadStream(filePath)
     .pipe(csv.parse({ headers: true }))
     .pipe(csv.format<IVox, IVoxTransformed>({ headers: true }))
@@ -68,17 +70,23 @@ const processCSV = async (filePath) => {
         .getOne(payload.CandidateLogin)
         .catch(() => undefined);
 
-      const vote_from = vox
-        ? [...new Set([...vox.vote_from, ...voteFrom])].filter(Boolean)
-        : voteFrom.filter(Boolean);
-
-      batch.collection("vox").upsert({
-        id: payload.CandidateLogin,
-        pisciner: users.find((user) => user.login === payload.CandidateLogin)!
-          .id,
-        vox: vox ? vox.vox + +payload.NumberOfVotes : +payload.NumberOfVotes,
-        vote_from: vote_from,
-      });
+      if (voxNo === "vox1") {
+        batch.collection("vox").upsert({
+          id: payload.CandidateLogin,
+          pisciner: users.find((user) => user.login === payload.CandidateLogin)!
+            .id,
+          vox1: payload.NumberOfVotes,
+          vox1_vote: voteFrom,
+        });
+      } else if (voxNo === "vox2") {
+        batch.collection("vox").upsert({
+          id: payload.CandidateLogin,
+          pisciner: users.find((user) => user.login === payload.CandidateLogin)!
+            .id,
+          vox2: payload.NumberOfVotes,
+          vox2_vote: voteFrom,
+        });
+      }
 
       try {
         await batch.send();
@@ -91,8 +99,8 @@ const processCSV = async (filePath) => {
 };
 
 // Process both CSV files
-// processCSV("./data/vox1.csv");
-// processCSV("./data/vox2.csv");
+// processCSV("./data/vox1.csv", "vox1");
+// processCSV("./data/vox2.csv", "vox2");
 
 // fs.createReadStream("./data/rush00.csv")
 //   .pipe(csv.parse({ headers: true }))
@@ -171,3 +179,54 @@ const processCSV = async (filePath) => {
 //     }
 //     return next(null, payload);
 //   });
+
+async function migrateVox() {
+  const voxs = await pb.collection("vox").getFullList<PbVox>();
+  for (const vox of voxs) {
+    try {
+      const voxPayload = {
+        id: vox.id,
+        pisciner: +vox.pisciner,
+        vox1: vox.vox1,
+        vox2: vox.vox2,
+      };
+      await db
+        .insert(voxTable)
+        .values(voxPayload)
+        .onConflictDoUpdate({
+          target: voxTable.id,
+          set: {
+            vox1: vox.vox1,
+            vox2: vox.vox2,
+          },
+        });
+
+      try {
+        for (const voter of vox.vox1_vote) {
+          const payload = {
+            voxNo: "vox1",
+            pisciner: +voter,
+            vox: vox.id,
+          };
+          logger.info(payload);
+          await db.insert(voxVoterTable).values(payload).onConflictDoNothing();
+        }
+        for (const voter of vox.vox2_vote) {
+          const payload = {
+            voxNo: "vox2",
+            pisciner: +voter,
+            vox: vox.id,
+          };
+          logger.info(payload);
+          await db.insert(voxVoterTable).values(payload).onConflictDoNothing();
+        }
+      } catch (error) {
+        logger.error(error);
+      }
+    } catch (error) {
+      logger.error(error);
+    }
+  }
+}
+
+await migrateVox();

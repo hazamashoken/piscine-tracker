@@ -105,3 +105,35 @@ export const locationTable = pgTable("locations", {
   end_at: timestamp({ withTimezone: true }),
   host: varchar(),
 });
+
+export const voxTable = pgTable("vox", {
+  id: varchar().primaryKey(),
+  pisciner: integer().references(() => piscinerTable.id),
+  vox1: integer(),
+  vox2: integer(),
+});
+
+export const voxVoterTable = pgTable(
+  "vox_voter",
+  {
+    voxNo: varchar().notNull(),
+    pisciner: integer().notNull(),
+    vox: varchar().notNull(),
+  },
+  (table) => [
+    primaryKey({
+      columns: [table.pisciner, table.voxNo, table.vox],
+      name: "vox_voter_pisciner_voxNo_pk",
+    }),
+    foreignKey({
+      columns: [table.pisciner],
+      foreignColumns: [piscinerTable.id],
+      name: "vox_voter_pisciner_pisciners_id_fk",
+    }),
+    foreignKey({
+      columns: [table.vox],
+      foreignColumns: [voxTable.id],
+      name: "vox_voter_vox_vox_id_fk",
+    }),
+  ],
+);
