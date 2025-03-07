@@ -18,6 +18,18 @@ export interface PbPisciner {
   created: Date;
   updated: Date;
 }
+
+export interface PbVox {
+  collectionId: string;
+  collectionName: string;
+  id: string;
+  pisciner: string;
+  vox: number;
+  vote_from: string[];
+  created: Date;
+  updated: Date;
+}
+
 export interface PbProject {
   collectionId: string;
   collectionName: string;
