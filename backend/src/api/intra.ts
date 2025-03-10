@@ -15,7 +15,7 @@ async function setUpIntraAPI() {
           client_secret: process.env["INTRA_API_SECRET"]!,
         },
       ],
-      0,
+      2,
     ).init();
   } catch (err) {
     logger.warn("Could not initialize Intra API, some features might not work");
