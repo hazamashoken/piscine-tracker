@@ -2,6 +2,7 @@
 	import UserInfo from "$lib/components/UserInfo.svelte";
 	import ProjectPanel from "$lib/components/ProjectPanel.svelte";
 	import EvaluationLogs from "$lib/components/EvaluationLogs.svelte";
+	import RushPanel from "$lib/components/RushPanel.svelte";
 	import { goto } from "$app/navigation";
 
 	let { data } = $props();
@@ -12,7 +13,7 @@
 <div class="absolute right-0 top-0 flex h-screen w-[10%] items-center justify-end pr-4" onclick={() => goto(`/dashboard/${data.next}`)}>
 </div>
 <div>
-<UserInfo user={data.pisciner} />
+<UserInfo user={data.pisciner} vox={data.vox} />
 </div>
 <div>
 <ProjectPanel projects={data.team} />
@@ -20,4 +21,6 @@
 <div>
 <EvaluationLogs scale_team_corrector={data.scale_team_corrector} scale_team_corrected={data.scale_team_corrected} />
 </div>
-<div>Stockmarket</div>
+<div>
+<RushPanel rushes={data.rush}/>
+</div>

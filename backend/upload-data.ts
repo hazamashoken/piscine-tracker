@@ -40,8 +40,9 @@ interface IRushTransformed {
   Comments: string;
 }
 
-// Comment and uncomment to run the script
+//  Comment and uncomment to run the script
 
+<<<<<<< Updated upstream
 const processCSV = async (filePath: string, voxNo: string) => {
   fs.createReadStream(filePath)
     .pipe(csv.parse({ headers: true }))
@@ -230,3 +231,90 @@ async function migrateVox() {
 }
 
 await migrateVox();
+=======
+ fs.createReadStream("./data/vox1.csv")
+   .pipe(csv.parse({ headers: true }))
+   .pipe(csv.format<IVox, IVoxTransformed>({ headers: true }))
+   .transform(async (data, next) => {
+     const payload = {
+       CandidateLogin: data.CandidateLogin,
+       NumberOfVotes: data.NumberOfVotes,
+       Voters: data.Voters.split(","),
+     };
+     const users = await pb.collection("pisciner").getFullList({
+       filter: "is_pisciner=true",
+       sort: "login",
+     });
+     const batch = pb.createBatch();
+     const voteFrom = payload.Voters.map(
+       (voter) =>
+         users.find((user) => {
+           return user.login === voter.trim().toLocaleLowerCase();
+         })?.id,
+     );
+     batch.collection("vox").upsert({
+       pisciner: users.find((user) => user.login === payload.CandidateLogin)!.id,
+       vox: payload.NumberOfVotes,
+       vote_from: voteFrom,
+     });
+
+     try {
+       await batch.send();
+     } catch (error) {
+       console.error(error);
+     }
+     return next(null, payload);
+   });
+
+ fs.createReadStream("./data/rush00.csv")
+   .pipe(csv.parse({ headers: true }))
+   .pipe(csv.format<IRush, IRushTransformed>({ headers: true }))
+   .transform(async (data, next) => {
+     const users = await pb.collection("pisciner").getFullList({
+       filter: "is_pisciner=true",
+       sort: "login",
+     });
+     const payload = {
+       TeamMembers: data["Team Members"],
+       level: data.level,
+       Pass: data.Pass === "OK" ? "OK" : "KO",
+       Comments: data["Evaluator Comments on each member"],
+     };
+     if (data.Pass !== "") {
+       console.log("RUSH00", payload);
+       await pb.collection("rush").create({
+         pisciner: users.find((user) => user.login === payload.TeamMembers)?.id,
+         project: "RUSH00",
+         comment: payload.Comments,
+         flag: payload.Pass,
+       });
+     }
+     return next(null, payload);
+   });
+
+ fs.createReadStream("./data/rush01.csv")
+   .pipe(csv.parse({ headers: true }))
+   .pipe(csv.format<IRush, IRushTransformed>({ headers: true }))
+   .transform(async (data, next) => {
+     const users = await pb.collection("pisciner").getFullList({
+       filter: "is_pisciner=true",
+       sort: "login",
+     });
+     const payload = {
+       TeamMembers: data["Team Members"],
+       level: data.level,
+       Pass: data.Pass,
+       Comments: data["Evaluator Comments on each member"],
+     };
+     if (data.Pass !== "") {
+       console.log("RUSH01", payload);
+       await pb.collection("rush").create({
+         pisciner: users.find((user) => user.login === payload.TeamMembers)?.id,
+         project: "RUSH01",
+         comment: payload.Comments,
+         flag: payload.Pass,
+       });
+     }
+     return next(null, payload);
+   });
+>>>>>>> Stashed changes

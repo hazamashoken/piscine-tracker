@@ -20,13 +20,13 @@
 					? 'bg-success/20 border-success'
 					: 'bg-error/20 border-error'} hover:border-accent hover:bg-accent/20 rounded-lg border-2 p-4 transition-all duration-300 hover:scale-101 hover:shadow-xl"
 			>
-				<div class="card-body p-0">
-					<h2 class="card-title font-bold text-mg">
+				<div class="card-body p-0 justify-between items-center lg:items-left">
+					<h2 class="card-title text-xs font-bold lg:text-lg">
 						{project.project_name.split('/').slice(-1)[0]
 							? project.project_name.split('/').slice(-1)[0]
 							: exam[project.project_id]}
 					</h2>
-					<div class="badge badge-accent text-xs font-bold">
+					<div class="badge badge-accent scale-70 text-xs font-bold lg:scale-100">
 						{project.final_mark ? project.final_mark : '0'}%
 					</div>
 				</div>

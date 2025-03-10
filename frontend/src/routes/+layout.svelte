@@ -3,6 +3,6 @@
 	let { children } = $props();
 </script>
 
-<main data-theme="light">
+<main data-theme="light" class="font-satoshi">
 	{@render children()}
 </main>
