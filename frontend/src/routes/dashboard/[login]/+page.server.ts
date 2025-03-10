@@ -25,14 +25,14 @@ export async function load({ params }) {
 	if (vox.items.length == 0)
 		data.pisciner.vox = 0;
 	else
-		data.pisciner.vox = vox.items[0].vox;
-	const vox_rank = await pb.collection("vox").getFullList({
-		sort: "-vox"
-	});
-	for (const item of vox_rank) {
-		if (item.pisciner === pisciner.items[0].id)
-			data.pisciner.vox_rank = vox_rank.indexOf(item) + 1;
-	}
+		data.pisciner.vox = vox.items[0].vox1 + vox.items[0].vox2;
+	// const vox_rank = await pb.collection("vox").getFullList({
+	// 	sort: "-vox"
+	// });
+	// for (const item of vox_rank) {
+	// 	if (item.pisciner === pisciner.items[0].id)
+	// 		data.pisciner.vox_rank = vox_rank.indexOf(item) + 1;
+	// }
 	const team = await pb.collection("team").getFullList({
 		filter: `users.login = "${login}"`
 	});

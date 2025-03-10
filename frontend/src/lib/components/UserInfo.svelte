@@ -24,8 +24,8 @@
 		<p class="text-md text-gray-500">
 			Voxotron Votes: <span class="text-secondary font-bold">{user.vox}</span>
 		</p>
-		<p class="text-md text-gray-500">
+		<!-- <p class="text-md text-gray-500">
 			Voxotron Rank: <span class="text-secondary font-bold">{user.vox_rank}</span>
-		</p>
+		</p> -->
 	</div>
 </div>
