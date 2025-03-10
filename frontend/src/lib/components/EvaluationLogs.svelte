@@ -51,24 +51,24 @@
 			{#each Object.keys(corrector) as flag}
 				{#if flag != "ok" && flag != "outstanding project"}
 					{#if flag == "can’t support / explain code"}
-						<div class="badge badge-error text-primary text-xs font-bold">Can't Explain Code: {corrector[flag]}</div>
+						<div class="badge badge-error text-primary text-[9px] font-bold">Can't Explain Code: {corrector[flag]}</div>
 					{:else}
-						<div class="badge badge-error text-primary text-xs font-bold">{capitalizeEach(flag, " ")}: {corrector[flag]}</div>
+						<div class="badge badge-error text-primary text-[9px] font-bold">{capitalizeEach(flag, " ")}: {corrector[flag]}</div>
 					{/if}
 				{:else}
-					<div class="badge badge-accent text-xs font-bold">{capitalizeEach(flag, " ")}: {corrector[flag]}</div>
+					<div class="badge badge-accent text-[9px] font-bold">{capitalizeEach(flag, " ")}: {corrector[flag]}</div>
 					{/if}
 				{/each}
 			{:else}
 			{#each Object.keys(corrected) as flag}
 			{#if flag != "ok" && flag != "outstanding project"}
 				{#if flag == "can’t support / explain code"}
-					<div class="badge badge-error text-primary text-xs font-bold">Can't Explain Code: {corrected[flag]}</div>
+					<div class="badge badge-error text-primary text-[9px] font-bold">Can't Explain Code: {corrected[flag]}</div>
 				{:else}
-					<div class="badge badge-error text-primary text-xs font-bold">{capitalizeEach(flag, " ")}: {corrected[flag]}</div>
+					<div class="badge badge-error text-primary text-[9px] font-bold">{capitalizeEach(flag, " ")}: {corrected[flag]}</div>
 				{/if}
 				{:else}
-					<div class="badge badge-accent text-xs font-bold">{capitalizeEach(flag, " ")}: {corrected[flag]}</div>
+					<div class="badge badge-accent text-[9px] font-bold">{capitalizeEach(flag, " ")}: {corrected[flag]}</div>
 				{/if}
 			{/each}
 			{/if}
