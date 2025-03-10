@@ -26,13 +26,15 @@ export async function load({ params }) {
 		data.pisciner.vox = 0;
 	else
 		data.pisciner.vox = vox.items[0].vox1 + vox.items[0].vox2;
-	// const vox_rank = await pb.collection("vox").getFullList({
-	// 	sort: "-vox"
-	// });
-	// for (const item of vox_rank) {
-	// 	if (item.pisciner === pisciner.items[0].id)
-	// 		data.pisciner.vox_rank = vox_rank.indexOf(item) + 1;
-	// }
+	const vox_rank = await pb.collection("vox").getFullList();
+	vox_rank.sort((a, b) => (b.vox1 + b.vox2) - (a.vox1 + a.vox2));
+	
+	for (let i = 0; i < vox_rank.length; i++) {
+		if (vox_rank[i].pisciner === pisciner.items[0].id) {
+			data.pisciner.vox_rank = i + 1;
+			break;
+		}
+	}
 	const team = await pb.collection("team").getFullList({
 		filter: `users.login = "${login}"`
 	});
@@ -67,7 +69,8 @@ export async function load({ params }) {
 		sort: "login"
 	});
 	logins = pisciners.map((pisciner) => pisciner.login);
-	data.previous = logins[logins.indexOf(data.pisciner.login) - 1];
-	data.next = logins[logins.indexOf(data.pisciner.login) + 1];
+	const currentIndex = logins.indexOf(data.pisciner.login);
+	data.previous = currentIndex === 0 ? logins[logins.length - 1] : logins[currentIndex - 1];
+	data.next = currentIndex === logins.length - 1 ? logins[0] : logins[currentIndex + 1];
 	return data;
 }
