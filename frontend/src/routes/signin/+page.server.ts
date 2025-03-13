@@ -7,7 +7,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
     try {
         cookies.get("session");
     } catch {
-        redirect(301, `/piscine-tracker/signin`)
+        redirect(301, `${base}/signin`)
     }
 };
 
@@ -23,10 +23,10 @@ export const actions = {
                 password,
             );
         } catch (error) {
-            redirect(301, `/piscine-tracker/signin`);
+            redirect(301, `${base}/signin`);
         }
-        cookies.set('session', pb.authStore.token, { path: `/piscine-tracker` });
+        cookies.set('session', pb.authStore.token, { path: `${base}` });
 
-        redirect(301, `/piscine-tracker`);
+        redirect(301, `${base}`);
     },
 } satisfies Actions;

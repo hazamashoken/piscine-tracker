@@ -6,7 +6,7 @@ export const actions = {
     default: async ({ cookies }) => {
         pb.authStore.clear();
         cookies.set('session', '', {
-            path: '/',
+            path: `${base}`,
             expires: new Date(0)
         });
 
