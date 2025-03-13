@@ -100,4 +100,7 @@
 		{/each}
 	</div>
 	<button class="btn btn-primary hover:bg-accent hover:text-accent-content rounded-lg" onclick={() => goto('/dashboard')}>Dashboard</button>
+	<form method="POST" action="/logout" use:enhance>
+		<button class="btn btn-primary hover:bg-error hover:text-accent-content rounded-lg" type="submit">Logout</button>
+	</form>
 </div>

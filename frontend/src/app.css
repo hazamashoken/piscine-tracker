@@ -36,6 +36,10 @@
 	--noise: 0;
 }
 
+:root {
+	@apply bg-white;
+}
+
 ::selection {
 	@apply bg-accent/50;
 }
