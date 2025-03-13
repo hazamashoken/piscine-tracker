@@ -14,6 +14,6 @@ export async function load({ cookies }) {
 			logins
 		};
 	} else {
-		redirect(301, `${base}/signin`)
+		redirect(301, `/piscine-tracker/signin`)
 	}
 }
