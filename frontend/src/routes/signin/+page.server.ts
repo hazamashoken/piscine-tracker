@@ -5,7 +5,7 @@ import { base } from '$app/paths';
 
 export const load: PageServerLoad = async ({ cookies }) => {
     try {
-        cookies.get("session");
+        cookies.get("piscine-tracker.Session");
     } catch {
         redirect(301, `${base}/signin`)
     }
