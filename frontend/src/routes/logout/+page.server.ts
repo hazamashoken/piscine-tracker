@@ -5,8 +5,8 @@ import { redirect } from '@sveltejs/kit';
 export const actions = {
     default: async ({ cookies }) => {
         pb.authStore.clear();
-        cookies.set('session', '', {
-            path: `${base}`,
+        cookies.set('piscine-tracker.Session', '', {
+            path: `/`,
             expires: new Date(0)
         });
 
