@@ -1,3 +1,4 @@
+import { base } from '$app/paths';
 import { pb } from '$lib/pocketbase';
 import { redirect } from '@sveltejs/kit';
 export async function load({ cookies }) {
@@ -13,6 +14,6 @@ export async function load({ cookies }) {
 			logins
 		};
 	} else {
-		redirect(301, "/signin")
+		redirect(301, `${base}/signin`)
 	}
 }

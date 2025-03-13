@@ -1,5 +1,6 @@
 <script>
 	import { capitalizeEach } from "$lib/functions";
+	import { base } from '$app/paths';
 
 	let { evaluation } = $props();
 </script>
@@ -11,12 +12,12 @@
 		<div>
 			<h2>
 				<a
-					href="/dashboard/{evaluation.corrector}"
+					href="{base}/dashboard/{evaluation.corrector}"
 					class="link link-hover text-accent font-bold hover:opacity-50">{evaluation.corrector}</a
 				>
 				evaluated
 				<a
-					href="/dashboard/{evaluation.corrected}"
+					href="{base}/dashboard/{evaluation.corrected}"
 					class="link link-hover text-accent font-bold hover:opacity-50">{evaluation.corrected}</a
 				>
 			</h2>

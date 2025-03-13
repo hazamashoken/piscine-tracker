@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
 
 	let { data } = $props();
@@ -86,7 +87,7 @@
 		{#each data.logins as login}
 			<button
 				class="select-accent hover:border-accent focus:border-accent group relative h-14 w-14 origin-center rounded-full border-6 transition-all duration-150 hover:h-18 hover:scale-150 focus:h-18 focus:scale-150 focus:outline-none"
-				onclick={() => goto(`/dashboard/${login}`)}
+				onclick={() => goto(`${base}/dashboard/${login}`)}
 				onfocus={centerElement}
 			>
 				<span class="absolute inset-[-20px] rounded-full"></span>
@@ -99,7 +100,7 @@
 			</button>
 		{/each}
 	</div>
-	<button class="btn btn-primary hover:bg-accent hover:text-accent-content rounded-lg" onclick={() => goto('/dashboard')}>Dashboard</button>
+	<button class="btn btn-primary hover:bg-accent hover:text-accent-content rounded-lg" onclick={() => goto(`${base}/dashboard`)}>Dashboard</button>
 	<form method="POST" action="/logout" use:enhance>
 		<button class="btn btn-primary hover:bg-error hover:text-accent-content rounded-lg" type="submit">Logout</button>
 	</form>

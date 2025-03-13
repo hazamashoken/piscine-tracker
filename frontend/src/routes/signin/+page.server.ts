@@ -1,12 +1,13 @@
 import { pb } from "$lib/pocketbase";
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad, Actions } from './$types';
+import { base } from '$app/paths';
 
 export const load: PageServerLoad = async ({ cookies }) => {
     try {
         cookies.get("session");
     } catch {
-        redirect(301, "/signin")
+        redirect(301, `${base}/signin`)
     }
 };
 
@@ -22,10 +23,10 @@ export const actions = {
                 password,
             );
         } catch (error) {
-            redirect(301, "/signin");
+            redirect(301, `${base}/signin`);
         }
-        cookies.set('session', pb.authStore.token, { path: '/' });
+        cookies.set('session', pb.authStore.token, { path: `${base}` });
 
-        redirect(301, "/");
+        redirect(301, `${base}`);
     },
 } satisfies Actions;
