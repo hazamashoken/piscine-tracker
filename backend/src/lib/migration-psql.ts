@@ -92,7 +92,7 @@ export async function migrateProject() {
           },
         });
     } catch (error) {
-      logger.error({ error, fn: "migrateProject" });
+      logger.error({ error, fn: "migrateProject", value: project });
     }
   }
 }
@@ -134,7 +134,7 @@ export async function migrateScaleTeam() {
           },
         });
     } catch (error) {
-      logger.error({ error, fn: "migrateScaleTeam" });
+      logger.error({ error, fn: "migrateScaleTeam", value: scaleTeam });
     }
   }
 }
@@ -171,7 +171,7 @@ export async function migrateTeam() {
           },
         });
     } catch (error) {
-      logger.error(error);
+      logger.error({ error, fn: "migrateTeam", value: team });
     }
   }
   const teamMembers = teams.flatMap((team) => {
@@ -215,7 +215,7 @@ export async function migrateLocationStat() {
           },
         });
     } catch (error) {
-      logger.error({ error, fn: "migrateLocationStat" });
+      logger.error({ error, fn: "migrateLocationStat", value: locationStat });
     }
   }
 }
@@ -249,7 +249,7 @@ export async function migrateLocation() {
           },
         });
     } catch (error) {
-      logger.error({ error, fn: "migrateLocation" });
+      logger.error({ error, fn: "migrateLocation", value: location });
     }
   }
 }
