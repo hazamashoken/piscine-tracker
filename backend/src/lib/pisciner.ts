@@ -182,7 +182,7 @@ export async function processLocationsStat(begin_at?: string) {
   for (const user of users) {
     const locationStat = await fetchLocationStats(api, user.id, begin_at);
     if (!locationStat || R.isEmpty(locationStat[0]!)) {
-      return;
+      continue;
     }
 
     const batch = pb.createBatch();
