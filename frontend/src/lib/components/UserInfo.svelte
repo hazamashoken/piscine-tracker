@@ -2,9 +2,9 @@
 	let { user, vox } = $props();
 </script>
 
-<div class="bg-primary border-secondary flex h-full w-full flex-col gap-3 rounded-lg border-2 p-4 md:p-6 overflow-y-auto">
+<div class="bg-primary border-secondary flex h-full w-full flex-row gap-3 rounded-lg border-2 p-4 md:p-6 overflow-y-auto">
 	<div class="avatar flex justify-center">
-		<div class="ring-primary ring-offset-accent w-24 md:w-32 rounded-full ring ring-offset-4">
+		<div class="ring-primary ring-offset-accent w-90 rounded-md ring ring-offset-4">
 			<img src={user.image_url} alt={user.login} />
 		</div>
 	</div>
