@@ -27,6 +27,6 @@ export const actions = {
         }
         cookies.set('piscine-tracker.Session', pb.authStore.token, { path: `/` });
 
-        redirect(301, `${base}`);
+        redirect(301, `${base}/`);
     },
 } satisfies Actions;
