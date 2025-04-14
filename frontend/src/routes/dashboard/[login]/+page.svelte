@@ -8,14 +8,14 @@
 	let { data } = $props();
 </script>
 
-<div
+<!-- <div
 	class="absolute top-0 left-0 flex h-screen w-[10%] items-center pl-4"
 	onclick={() => window.location.href = `${base}/dashboard/${data.previous}`}
 ></div>
 <div
 	class="absolute top-0 right-0 flex h-screen w-[10%] items-center justify-end pr-4"
 	onclick={() => window.location.href = `${base}/dashboard/${data.next}`}
-></div>
+></div> -->
 <div>
 	<UserInfo user={data.pisciner} vox={data.vox} />
 </div>

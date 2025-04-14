@@ -8,7 +8,7 @@
 			<img src={user.image_url} alt={user.login} />
 		</div>
 	</div>
-	<div class="flex flex-col gap-2">
+	<div class="flex flex-col gap-2 w-full h-full">
 		<h1 class="text-xl md:text-2xl font-bold">{user.login}</h1>
 		<h1 class="text-lg md:text-xl font-semibold">{user.first_name} {user.last_name}</h1>
 		<p class="text-sm md:text-md text-gray-500">{user.email}</p>
