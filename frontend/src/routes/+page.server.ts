@@ -7,7 +7,7 @@ export async function load({ cookies }) {
 		let logins = []
 		const data = await pb.collection("pisciner").getFullList({
 			sort: "login",
-			filter: "is_pisciner=true"
+			filter: "is_pisciner=true && pool_month = 'march' && pool_year = '2025'"
 		});
 		logins = data.map((pisciner) => pisciner.login);
 		return {

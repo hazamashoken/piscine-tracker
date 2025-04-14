@@ -5,6 +5,7 @@
 
 	let { data } = $props();
 	let search = $state('');
+	let piscine = $state('Piscine 5')
 
 	function centerElement(event: Event) {
 		const button = event.currentTarget as HTMLElement;
@@ -41,6 +42,12 @@
 				buttonElement.focus();
 			}
 		}
+	}
+
+	function handleSelect(event: Event) {
+		const target = event.currentTarget as HTMLInputElement;
+		const target_piscine = target.value.toLowerCase();
+		console.log(target_piscine);
 	}
 
 	onMount(() => {
@@ -83,6 +90,12 @@
 		<kbd class="kbd kbd-sm">⌘</kbd>
 		<kbd class="kbd kbd-sm">K</kbd>
 	</label>
+	<!-- <select class="select focus-within:input-accent rounded-lg focus-within:outline-none" bind:value={$piscine}>
+		<option disabled selected>Select Piscine</option>
+		<option>All</option>
+		<option>Piscine 4</option>
+		<option>Piscine 5</option>
+	</select> -->
 	<div class="fade-lr item-center mx-auto flex h-56 w-5/6 flex-row gap-6 overflow-x-auto p-20">
 		{#each data.logins as login}
 			<button
